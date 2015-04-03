@@ -11,7 +11,7 @@ Swagger to slate converter
 6. Convert swagger.json to slate markdown (`cat ./swagger.json | ./swagger2slate.phar > index.md`)
 7. Use slate to generate static html documentation ([Getting Started with Slate](https://github.com/tripit/slate#getting-started-with-slate))
 
-### Resources
+#### Resources
 * [Swagger specification 2.0](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md)
 * [Swagger explained](http://bfanger.github.io/swagger-explained)
 * [Doctrine annotations](http://doctrine-common.readthedocs.org/en/latest/reference/annotations.html)
