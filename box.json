@@ -1,0 +1,20 @@
+{
+  "chmod": "0755",
+  "directories" : [
+    "swagger"
+  ],
+  "files": [
+    "index.php",
+    "slate.twig"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "notPath": "test",
+      "in": "vendor"
+    }
+  ],
+  "main": "index.php",
+  "output": "swagger2slate.phar",
+  "stub": true
+}

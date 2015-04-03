@@ -1,0 +1,15 @@
+{
+  "name": "e96/swagger2slate",
+  "description": "Swagger (http://swagger.io) to slate (https://github.com/tripit/slate) converter",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "m8rge",
+      "email": "to.merge@gmail.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "*"
+  }
+}
