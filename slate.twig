@@ -19,6 +19,15 @@ search: true
 {% endfor %}
 
 {% endif %}	
+{% if api.securityDefinitions %}
+{% for title, securityScheme in api.securityDefinitions %}
+### Authorization: {{ title }}
+Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Description
+--- |{% if securityScheme.type == 'apiKey' %} --- | --- |{% endif %} ---
+{{ securityScheme.type }} |{% if securityScheme.type == 'apiKey' %} {{ securityScheme.name }} | {{ securityScheme.in }} |{% endif %} {{ securityScheme.description }}
+{% endfor %}
+
+{% endif %}
 {% for endPoint, actions in api.paths %}
 {% for httpAction, action in actions %}
 ## {{ action.summary|capitalize }}
