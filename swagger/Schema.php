@@ -30,7 +30,7 @@ class Schema extends Object
      */
     public $required;
     
-    protected $isRef = false;
+    protected $isRef = null;
 
     public function setItems($value)
     {
@@ -64,14 +64,20 @@ class Schema extends Object
         }
         
         if (!array_key_exists('title', $array)) {
-            $array['title'] = end($pathEntries);
-            $array['isRef'] = true;
+            if (!$this->title) {
+                $array['title'] = end($pathEntries);
+            }
+            if (is_null($this->isRef)) {
+                $array['isRef'] = true;
+            }
         }
         $this->setConfig($array);
     }
 
     public function setAllOf($value)
     {
+        $this->title = 'object';
+        $this->isRef = false;
         foreach ($value as $schema) {
             $this->setConfig($schema);
         }
