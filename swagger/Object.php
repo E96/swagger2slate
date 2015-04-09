@@ -8,6 +8,12 @@ class Object // implements ArrayAccess
     public function __construct($config = [])
     {
         $this->setConfig($config);
+        $this->init();
+    }
+
+    public function init()
+    {
+        
     }
 
     public function setConfig($config = [])

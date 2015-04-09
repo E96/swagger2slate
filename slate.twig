@@ -1,112 +1,21 @@
+{% import 'include.twig' as func %}
 ---
 title: {{ api.info.title }} {{ api.info.version }}
 
 search: true
 ---
 
-# {{ api.info.title }} {{ api.info.version }}
-{% if api.consumes %}
-> ### Consumes  
-{% for contentType in api.consumes %}
-> `{{ contentType }}`  
-{% endfor %}
+{{ func.headBlock(api) }}
 
-{% endif %}
-> ### Produces
-{% if api.produces %}
-{% for contentType in api.produces %}
-> `{{ contentType }}`
-{% endfor %}
-
-{% endif %}	
-{% if api.securityDefinitions %}
-{% for title, securityScheme in api.securityDefinitions %}
-### Authorization: {{ title }}
-Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Description
---- |{% if securityScheme.type == 'apiKey' %} --- | --- |{% endif %} ---
-{{ securityScheme.type }} |{% if securityScheme.type == 'apiKey' %} {{ securityScheme.name }} | {{ securityScheme.in }} |{% endif %} {{ securityScheme.description }}
-{% endfor %}
-
-{% endif %}
+{% for tag in api.tags %}
+# {{ tag.name|capitalize }}
+{% for endPoint, actions in api.getPathsByTag(tag.name) %}
+{{ func.renderActions(api, endPoint, actions) }}
+{% endfor %}{# endPoint #}
+{% else %}
 {% for endPoint, actions in api.paths %}
-{% for httpAction, action in actions %}
-## {{ action.summary|capitalize }}
+{{ func.renderActions(api, endPoint, actions) }}
+{% endfor %}{# endPoint #}
+{% endfor %}{# tag #}
 
-```http
-{{ httpAction|upper }} {{ api.basePath }}{{ endPoint }} HTTP/1.1
-{% set parameters = action.parameters|newParameters %}
-{% set body = parameters.getBodyObject() %}
-{% if body %}
-Content-Type: {{ api.consumes[0]|default('application/json') }}
-
-{{ body|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
-{% endif %}
-```
-{% for code, response in action.responses %}
-```http
-HTTP/1.1 {{ code }} {{ code|textStatus }}
-{% for contentType, response in response.examples|slice(0,1) %}
-Content-Type: {{ contentType }}
-
-{{ response|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}	
-{% else %}
-{% if response.schema %}
-Content-Type: {{ api.produces[0]|default('application/json') }}
-
-{% set model = response.schema|newSchema %}
-{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
-{% endif %}
-{% endfor %}
-```
-{% endfor %}
-{% if action.description %}
-
-{{ action.description }}
-
-{% endif %}
-
-{% if action.parameters %}
-{% set parameters = action.parameters|newParameters %}
-### Parameters
-Name | In | Type | Description
---- | --- | --- | ---
-{% for parameter in parameters %}
-{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {{ parameter.description }}
-{% endfor %}
-
-{% endif %}
-### Responses
-Http code | Type | Description
---- | --- | ---
-{% for status, data  in action.responses %}
-{% if data.schema %}
-{% set model = data.schema|newSchema %}
-{% else %}
-{% set model = 'no content' %}
-{% endif %}
-{{ status }} | {{ model }} | {{ data.description }}
-{% endfor %}
-
-{% endfor %}{# httpAction #}
-{% endfor %}{# endpoint #}
-
-# Models
-{% for name, data in api.definitions %}
-{% set model = data|newSchema %}
-## {{ name }}
-```json
-{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
-```
-{% if model.description %}
-
-{{ model.description }}
-
-{% endif %}	
-### Fields
-Name | Type | Description
---- | --- | ---
-{% for name, schema in model.properties %}
-{{ name }}{% if name in model.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ schema }} | {{ schema.description }}
-{% endfor %}
-
-{% endfor %}{# definition #}
+{{ func.renderModels(api) }}

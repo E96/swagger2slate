@@ -8,11 +8,12 @@ use e96\swagger\Swagger;
 $autoLoader = require_once 'vendor/autoload.php';
 $autoLoader->addPsr4('e96\\', __DIR__);
 
-$swagger = json_decode(file_get_contents('php://stdin'), true);
-if ($swagger['swagger'] != '2.0') {
+$config = json_decode(file_get_contents('php://stdin'), true);
+if ($config['swagger'] != '2.0') {
     die('swagger version must be 2.0');
 }
-Swagger::$root = $swagger;
+Swagger::$root = $config;
+$swagger = new Swagger($config);
 
 $loader = new Twig_Loader_Filesystem(__DIR__);
 $twig = new Twig_Environment($loader);
