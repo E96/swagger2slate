@@ -3,14 +3,14 @@
 * Store your api documentation with your code.
 * Update and publish html documentation in couple lines in terminal.
 
-## Document your php api
+## 1. Document your php api
 
 1. Install Php annotations plugin for PhpStorm (Preferences → Plugins → Browse repositories → PHP Annotation → Install Plugin)
 2. Install swagger-php (`composer require zircote/swagger-php=2.*@dev`)
 3. Write annotations ([Swagger-php getting started](https://github.com/zircote/swagger-php/blob/2.x/docs/Getting%20started.md))
 4. Convert annotations to swagger.json (`./vendor/bin/swagger . -o ./swagger.json`)
 
-## Generate html docs and publish to github
+## 2. Generate html docs and publish to github
 
 ### Requirements
 - empty branch gh-pages must exists
