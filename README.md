@@ -38,7 +38,7 @@ echo -e "\nvendor/" >> .gitignore
 Download [swagger2slate.phar](https://github.com/e96/swagger2slate/releases/latest) to current directory and set execution rights to file
 ```shell
 chmod +x swagger2slate.phar
-echo -e "\nswagger2slate.phar/" >> .gitignore
+echo -e "\nswagger2slate.phar" >> .gitignore
 ```
 
 Generate slate markdown
