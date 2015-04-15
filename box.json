@@ -5,7 +5,8 @@
   ],
   "files": [
     "index.php",
-    "slate.twig"
+    "slate.twig",
+    "include.twig"
   ],
   "finder": [
     {
@@ -16,5 +17,6 @@
   ],
   "main": "index.php",
   "output": "swagger2slate.phar",
+  "compression": "GZ",
   "stub": true
 }
