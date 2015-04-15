@@ -13,7 +13,7 @@
 ## 2. Generate html docs and publish to github
 
 ### Requirements
-- empty branch gh-pages must exists
+- branch gh-pages must exists
 - swagger.json in repository
 - [bundler](http://bundler.io) (`gem install bundler`)
 
