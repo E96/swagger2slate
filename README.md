@@ -19,7 +19,7 @@
 
 ### Steps
 
-get slate in your repository
+Get slate in your repository
 ```shell
 git clone --depth 1 git@github.com:{your-name}/{your-repository} {your-repository}-docs # create folder to store docs
 cd {your-repository}-docs
