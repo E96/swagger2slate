@@ -10,6 +10,7 @@
     }
   ],
   "require": {
-    "twig/twig": "*"
+    "twig/twig": "*",
+    "mnapoli/silly": "dev-master"
   }
 }
