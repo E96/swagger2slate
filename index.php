@@ -6,16 +6,16 @@ use e96\swagger\Swagger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** @var \Composer\Autoload\ClassLoader $autoLoader */
-$autoLoader = require_once 'vendor/autoload.php';
+$autoLoader = require_once __DIR__.'/vendor/autoload.php';
 $autoLoader->addPsr4('e96\\', __DIR__);
 
-$app = new Silly\Application();
+$app = new Silly\Application('swagger2slate', 'dev-master');
 
-$app->command('convert inputFile outputFile', function($inputFile, $outputFile, OutputInterface $output) {
+$app->command('convert inputFile [-o|--outputFile=]', function($inputFile, $outputFile, OutputInterface $output) use ($app) {
     $config = json_decode(file_get_contents($inputFile), true);
     if ($config['swagger'] != '2.0') {
         $output->writeln('swagger version must be 2.0');
-        return;
+        return 1;
     }
     Swagger::$root = $config;
     $swagger = new Swagger($config);
@@ -96,10 +96,16 @@ $app->command('convert inputFile outputFile', function($inputFile, $outputFile, 
         'api' => $swagger,
     ));
     
-    file_put_contents($outputFile, $slate); 
+    if (!empty($outputFile)) {
+        file_put_contents($outputFile, $slate);
+    } else {
+        $output->writeln($slate);
+    }
+    
+    return 0;
 })->descriptions('Converts swagger.json to slate markdown file', [
     'inputFile' => 'swagger.json file path',
-    'outputFile' => 'source/index.md file path',
+    '--outputFile' => 'source/index.md file path',
 ]);
 
 $app->run();
