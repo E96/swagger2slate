@@ -43,7 +43,7 @@ echo -e "\nswagger2slate.phar" >> .gitignore
 
 Generate slate markdown
 ```shell
-cat ../{your-repository}/swagger.json | ./swagger2slate.phar > source/index.md
+./swagger2slate.phar ../{your-repository}/swagger.json  -o source/index.md
 ```
 
 Preview docs
