@@ -41,13 +41,43 @@ Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Descriptio
 
 {% endif %}	
 ### Fields
+{{ _self.renderFields(model) }}
+	
+{% endfor %}{# definition #}
+{% endmacro %}
+
+{# #################################################################################### #}
+
+{% macro renderFields(model) %}
 Name | Type | Description
 --- | --- | ---
 {% for name, schema in model.properties %}
 {{ name }}{% if name in model.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ schema }} | {{ schema.description }}
 {% endfor %}
+{% endmacro %}
 
-{% endfor %}{# definition #}
+{# #################################################################################### #}
+
+{% macro request(api, httpAction, action, endPoint) %}
+```http
+{{ httpAction|upper }} {{ api.basePath }}{{ endPoint }} HTTP/1.1
+{% set parameters = action.parameters|newParameters %}
+{% for parameter in parameters.getHeaderParameters() %}
+{% if parameter.type == 'array' %}
+{% set type = parameter.items.type %}
+{{ parameter.name }}: {{ type }}
+{% else %}
+{% set type = parameter.type %}
+{% endif %}
+{{ parameter.name }}: {{ type }}
+{% endfor %}
+{% set body = parameters.getBodyObject() %}
+{% if body %}
+Content-Type: {{ api.consumes[0]|default('application/json') }}
+
+{{ body|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+{% endif %}
+```
 {% endmacro %}
 
 {# #################################################################################### #}
@@ -56,16 +86,7 @@ Name | Type | Description
 {% for httpAction, action in actions %}
 ## {{ action.summary|capitalize }}
 
-```http
-{{ httpAction|upper }} {{ api.basePath }}{{ endPoint }} HTTP/1.1
-{% set parameters = action.parameters|newParameters %}
-{% set body = parameters.getBodyObject() %}
-{% if body %}
-Content-Type: {{ api.consumes[0]|default('application/json') }}
-
-{{ body|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
-{% endif %}
-```
+{{ _self.request(api, httpAction, action, endPoint) }}	
 {% for code, response in action.responses %}
 ```http
 HTTP/1.1 {{ code }} {{ code|textStatus }}
@@ -95,7 +116,7 @@ Content-Type: {{ api.produces[0]|default('application/json') }}
 Name | In | Type | Description
 --- | --- | --- | ---
 {% for parameter in parameters %}
-{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {{ parameter.description }}
+{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {% if not parameter.required %}Optional. {% endif %}{{ parameter.description }}
 {% endfor %}
 
 {% endif %}{#action.parameters#}

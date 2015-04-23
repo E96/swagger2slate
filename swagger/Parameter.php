@@ -29,20 +29,21 @@ class Parameter extends Object
      * @var string
      */
     public $type;
-//    /**
-//     * @var Items
-//     */
-//    public $items; // other than body
+    /**
+     * todo: convert to limited schema
+     * @var Schema
+     */
+    public $items;
 
     public function setSchema($value)
     {
         $this->schema = new Schema($value);
     }
 
-//    public function setItems($value)
-//    {
-//        $this->items = new Items($value);
-//    }
+    public function setItems($value)
+    {
+        $this->items = new Schema($value);
+    }
     
     public function __toString()
     {
@@ -51,8 +52,8 @@ class Parameter extends Object
         } else {
             if ($this->type != 'array') {
                 return $this->type;
-//            } else {
-//                return "array[$this->items]";
+            } else {
+                return "array[$this->items]";
             }
         }
     }

@@ -37,6 +37,21 @@ class Parameters extends Object implements IteratorAggregate
         return $res;
     }
 
+    public function getHeaderParameters()
+    {
+        $res = null;
+        foreach ($this->parameters as $name => $parameter) {
+            if ($parameter->in == 'header') {
+                if (!is_array($res)) {
+                    $res = [];
+                }
+                $res[$name] = $parameter;
+            }
+        }
+
+        return $res;
+    }
+
     public function getIterator()
     {
         return new \ArrayIterator($this->parameters);
