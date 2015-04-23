@@ -28,13 +28,18 @@ class Schema extends Object
     /**
      * @var string[]
      */
-    public $required;
+    public $required = [];
     
     protected $isRef = null;
 
     public function setItems($value)
     {
         $this->items = new Schema($value);
+    }
+
+    public function setRequired($value)
+    {
+        $this->required = array_merge($this->required, $value);
     }
 
     public function __toString()
