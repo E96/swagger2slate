@@ -111,7 +111,8 @@ class Schema extends Object
             return $res;
         } else {
             if ($this->type == 'object') {
-                return $this->getObject();
+                # an object with no defined properties
+                return $this->type;
             } elseif ($this->type == 'array') {
                 return [$this->items->getObject()];
             } else {

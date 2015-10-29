@@ -60,7 +60,7 @@ Name | Type | Description
 
 {% macro request(api, httpAction, action, endPoint) %}
 ```http
-{{ httpAction|upper }} {{ api.basePath }}{{ endPoint }} HTTP/1.1
+{{ httpAction|upper }} {{ api.basePath == '/' ? "" : api.basePath }}{{ endPoint }} HTTP/1.1
 {% set parameters = action.parameters|newParameters %}
 {% for parameter in parameters.getHeaderParameters() %}
 {% if parameter.type == 'array' %}
@@ -89,7 +89,7 @@ Content-Type: {{ api.consumes[0]|default('application/json') }}
 {{ _self.request(api, httpAction, action, endPoint) }}	
 {% for code, response in action.responses %}
 ```http
-HTTP/1.1 {{ code }} {{ code|textStatus }}
+HTTP/1.1 {{ code == "default" ? "[default]" : code }} {{ code|textStatus }}
 {% for contentType, response in response.examples|slice(0,1) %}
 Content-Type: {{ contentType }}
 
