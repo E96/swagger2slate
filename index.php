@@ -88,6 +88,7 @@ $app->command('convert inputFile [-o|--outputFile=]', function($inputFile, $outp
             508 => 'Loop Detected',
             510 => 'Not Extended',
             511 => 'Network Authentication Required',
+            'default' => ''
         ];
         return $statusTexts[$data];
     }));
