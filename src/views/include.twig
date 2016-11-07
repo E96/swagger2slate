@@ -60,7 +60,7 @@ Name | Type | Description
 
 {% macro request(api, httpAction, action, endPoint) %}
 ```http
-{{ httpAction|upper }} {{ api.basePath == '/' ? "" : api.basePath }}{{ endPoint }} HTTP/1.1
+{{ httpAction|upper }} {{ api.basePath }}{{ endPoint }} HTTP/1.1
 {% set parameters = action.parameters|newParameters %}
 {% for parameter in parameters.getHeaderParameters() %}
 {% if parameter.type == 'array' %}

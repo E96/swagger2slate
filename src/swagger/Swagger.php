@@ -11,12 +11,12 @@ class Swagger extends Object
      * @var string
      */
     public $swagger;
-    
+
     /**
      * @var mixed
      */
     public $info;
-    
+
     /**
      * @var string
      */
@@ -26,7 +26,7 @@ class Swagger extends Object
      * @var string[]
      */
     public $consumes;
-    
+
     /**
      * @var string[]
      */
@@ -56,7 +56,7 @@ class Swagger extends Object
      * @var mixed
      */
     public $tags;
-    
+
     public function setSecurityDefinitions($config)
     {
         $this->securityDefinitions = [];
@@ -79,7 +79,7 @@ class Swagger extends Object
         $res = [];
         foreach ($this->paths as $endPoint => $pathItem) {
             foreach ($methods as $method) {
-                if (array_key_exists($method, $pathItem) && 
+                if (array_key_exists($method, $pathItem) &&
                     array_key_exists('tags', $pathItem[$method]) &&
                     in_array($tag, $pathItem[$method]['tags'])
                 ) {
@@ -87,7 +87,7 @@ class Swagger extends Object
                 }
             }
         }
-        
+
         return $res;
     }
 }

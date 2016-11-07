@@ -9,37 +9,37 @@ class Schema extends Object
      * @var string
      */
     public $type = 'object';
-    
+
     /**
      * @var string
      */
     public $title;
-    
+
     /**
      * @var string
      */
     public $description;
-    
+
     /**
      * @var Schema
      */
     public $items;
-    
+
     /**
      * @var Schema[]
      */
     public $properties = [];
-    
+
     /**
-     * @var string[]
+     * @var string[] todo:
      */
     public $enum = [];
-    
+
     /**
      * @var string[]
      */
     public $required = [];
-    
+
     protected $isRef = null;
 
     public function setItems($value)
@@ -60,9 +60,9 @@ class Schema extends Object
     public function toString($md = true)
     {
         if ($this->title) {
-            return $this->isRef && $md ? "[$this->title](#".strtolower($this->title).")" : $this->title;
+            return $this->isRef && $md ? "[$this->title](#" . strtolower($this->title) . ")" : $this->title;
         } elseif ($this->type == 'array') {
-            return 'array['.$this->items->toString($md).']';
+            return 'array[' . $this->items->toString($md) . ']';
         } else {
             return $this->type;
         }
@@ -77,7 +77,7 @@ class Schema extends Object
         foreach ($pathEntries as $entry) {
             $array = $array[$entry];
         }
-        
+
         if (!array_key_exists('title', $array)) {
             if (!$this->title) {
                 $array['title'] = end($pathEntries);
@@ -137,7 +137,7 @@ class Schema extends Object
         foreach ($this->properties as $name => $schema) {
             $res[$name] = $schema->description ? $schema->description : (string)$schema;
         }
-        
+
         return $res;
     }
 }

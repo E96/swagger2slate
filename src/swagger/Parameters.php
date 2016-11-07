@@ -33,7 +33,7 @@ class Parameters extends Object implements IteratorAggregate
                 $res[$name] = $parameter->schema->getObject();
             }
         }
-        
+
         return $res;
     }
 

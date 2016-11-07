@@ -9,26 +9,32 @@ class Parameter extends Object
      * @var string
      */
     public $name;
+    
     /**
      * @var string
      */
     public $in;
+    
     /**
      * @var bool
      */
     public $required;
+    
     /**
      * @var string
      */
     public $description;
+    
     /**
      * @var Schema
      */
     public $schema;
+    
     /**
      * @var string
      */
     public $type;
+    
     /**
      * todo: convert to limited schema
      * @var Schema
@@ -44,7 +50,7 @@ class Parameter extends Object
     {
         $this->items = new Schema($value);
     }
-    
+
     public function __toString()
     {
         if ($this->in == 'body') {

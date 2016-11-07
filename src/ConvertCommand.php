@@ -109,7 +109,7 @@ class ConvertCommand
             510 => 'Not Extended',
             511 => 'Network Authentication Required',
         ];
-        
+
         if (array_key_exists($httpStatus, $statusTexts)) {
             return $statusTexts[$httpStatus];
         } else {
