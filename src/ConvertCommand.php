@@ -8,6 +8,7 @@ use m8rge\swagger\Swagger;
 use Silly\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
@@ -16,10 +17,10 @@ class ConvertCommand
 {
     function __invoke(Application $app, InputInterface $input, OutputInterface $output, $inputFile, $outputFile)
     {
-        $config = json_decode(file_get_contents($inputFile), true);
+        $config = $this->loadConfig($inputFile);
+        
         if ($config['swagger'] != '2.0') {
-            $output->writeln('swagger version must be 2.0');
-            return 1;
+            throw new \Exception('Swagger version must be 2.0');
         }
         Swagger::$root = $config;
         $swagger = new Swagger($config);
@@ -114,6 +115,29 @@ class ConvertCommand
             return $statusTexts[$httpStatus];
         } else {
             return '';
+        }
+    }
+
+    /**
+     * @param $inputFile
+     * @return mixed
+     * @throws \Exception
+     */
+    private function loadConfig($inputFile)
+    {
+        if (!file_exists($inputFile)) {
+            throw new \Exception("File $inputFile doesn't exists");
+        }
+        
+        $extension = pathinfo($inputFile, PATHINFO_EXTENSION);
+        if ($extension == 'json') {
+            $config = json_decode(file_get_contents($inputFile), true);
+            return $config;
+        } elseif ($extension == 'yml') {
+            $config = Yaml::parse(file_get_contents($inputFile));
+            return $config;
+        } else {
+            throw new \Exception('Wrong file type. Acceptable json or yml formats');
         }
     }
 }

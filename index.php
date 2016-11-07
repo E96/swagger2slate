@@ -11,8 +11,8 @@ $app->useContainer($container, true, true);
 $container->set('app', $app);
 
 $app->command('convert inputFile [-o|--outputFile=]', \m8rge\ConvertCommand::class)
-    ->descriptions('Converts swagger.json to slate markdown file', [
-        'inputFile' => 'swagger.json file path',
-        '--outputFile' => 'source/index.md file path',
+    ->descriptions('Converts swagger json or yml to slate markdown file', [
+        'inputFile' => 'swagger{.json|.yml} file path',
+        '--outputFile' => 'source/index.html.md file path',
     ]);
 $app->run();
