@@ -84,7 +84,7 @@ Content-Type: {{ api.consumes[0]|default('application/json') }}
 
 {% macro renderActions(api, endPoint, actions) %}
 {% for httpAction, action in actions %}
-## {{ action.summary|capitalize }}
+## {{ action.summary }}
 
 {{ _self.request(api, httpAction, action, endPoint) }}	
 {% for code, response in action.responses %}
