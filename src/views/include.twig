@@ -19,7 +19,7 @@
 ### Authorization: {{ title }}
 Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Description
 --- |{% if securityScheme.type == 'apiKey' %} --- | --- |{% endif %} ---
-{{ securityScheme.type }} |{% if securityScheme.type == 'apiKey' %} {{ securityScheme.name }} | {{ securityScheme.in }} |{% endif %} {{ securityScheme.description }}
+{{ securityScheme.type }} |{% if securityScheme.type == 'apiKey' %} {{ securityScheme.name }} | {{ securityScheme.in }} |{% endif %} {{ securityScheme.description|multilineInTable }}
 {% endfor %}
 
 {% endif %}{#api.securityDefinitions#}
@@ -33,7 +33,7 @@ Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Descriptio
 {% set model = data|newSchema %}
 ## {{ name }}
 ```json
-{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT')) }}
 ```
 {% if model.description %}
 
@@ -52,7 +52,7 @@ Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Descriptio
 Name | Type | Description
 --- | --- | ---
 {% for name, schema in model.properties %}
-{{ name }}{% if name in model.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ schema }} | {{ schema.description }}
+{{ name }}{% if name in model.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ schema }} | {{ schema.description|multilineInTable }}
 {% endfor %}
 {% endmacro %}
 
@@ -75,7 +75,7 @@ Name | Type | Description
 {% if body %}
 Content-Type: {{ api.consumes[0]|default('application/json') }}
 
-{{ body|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+{{ body|json_encode(constant('JSON_PRETTY_PRINT')) }}
 {% endif %}
 ```
 {% endmacro %}
@@ -93,13 +93,13 @@ HTTP/1.1 {{ code == "default" ? "[default]" : code }} {{ code|textStatus }}
 {% for contentType, response in response.examples|slice(0,1) %}
 Content-Type: {{ contentType }}
 
-{{ response|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}	
+{{ response|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE')) }}	
 {% else %}
 {% if response.schema %}
 Content-Type: {{ api.produces[0]|default('application/json') }}
 
 {% set model = response.schema|newSchema %}
-{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+{{ model.getObject()|json_encode(constant('JSON_PRETTY_PRINT')) }}
 {% endif %}{#response.schema#}
 {% endfor %}{#contentType, response in response.examples|slice(0,1) %}#}
 ```
@@ -116,7 +116,7 @@ Content-Type: {{ api.produces[0]|default('application/json') }}
 Name | In | Type | Description
 --- | --- | --- | ---
 {% for parameter in parameters %}
-{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {% if not parameter.required %}Optional. {% endif %}{{ parameter.description }}
+{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {% if not parameter.required %}Optional. {% endif %}{{ parameter.description|multilineInTable }}
 {% endfor %}
 
 {% endif %}{#action.parameters#}
@@ -129,7 +129,7 @@ Http code | Type | Description
 {% else %}
 {% set model = 'no content' %}
 {% endif %}{#data.schema#}
-{{ status }} | {{ model }} | {{ data.description }}
+{{ status }} | {{ model }} | {{ data.description|multilineInTable }}
 {% endfor %}{#status, data  in action.responses#}
 
 {% endfor %}{# httpAction, action in actions #}

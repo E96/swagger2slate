@@ -22,19 +22,11 @@ class ConvertCommand
         if ($config['swagger'] != '2.0') {
             throw new \Exception('Swagger version must be 2.0');
         }
+        
         Swagger::$root = $config;
         $swagger = new Swagger($config);
 
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/views');
-        $twig = new Twig_Environment($loader);
-        $twig->addFilter(new Twig_SimpleFilter('newSchema', function ($data) {
-            return new Schema($data);
-        }));
-        $twig->addFilter(new Twig_SimpleFilter('newParameters', function ($data) {
-            return new Parameters($data);
-        }));
-        $twig->addFilter(new Twig_SimpleFilter('textStatus', [$this, 'httpTextStatus']));
-
+        $twig = $this->getTwig();
         $slate = $twig->render('slate.twig', array(
             'api' => $swagger,
         ));
@@ -139,5 +131,28 @@ class ConvertCommand
         } else {
             throw new \Exception('Wrong file type. Acceptable json or yml formats');
         }
+    }
+
+    /**
+     * @return Twig_Environment
+     */
+    private function getTwig()
+    {
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/views');
+        $twig = new Twig_Environment($loader, [
+            'autoescape' => false,
+        ]);
+        $twig->addFilter(new Twig_SimpleFilter('newSchema', function ($data) {
+            return new Schema($data);
+        }));
+        $twig->addFilter(new Twig_SimpleFilter('newParameters', function ($data) {
+            return new Parameters($data);
+        }));
+        $twig->addFilter(new Twig_SimpleFilter('multilineInTable', function ($data) {
+            return str_replace("\n", "<br/>", $data);
+        }));
+        $twig->addFilter(new Twig_SimpleFilter('textStatus', [$this, 'httpTextStatus']));
+        
+        return $twig;
     }
 }
