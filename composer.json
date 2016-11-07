@@ -1,16 +1,17 @@
 {
   "name": "e96/swagger2slate",
   "description": "Swagger (http://swagger.io) to slate (https://github.com/tripit/slate) converter",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
-      "name": "m8rge",
+      "name": "Putilov Andrew",
       "email": "to.merge@gmail.com"
     }
   ],
   "require": {
-    "twig/twig": "*",
-    "mnapoli/silly": "dev-master"
+    "twig/twig": "^1.27.0",
+    "mnapoli/silly": "^1.3",
+    "php-di/php-di": "^5.2"
   }
 }

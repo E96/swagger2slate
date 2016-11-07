@@ -1,6 +1,6 @@
 <?php
 
-namespace e96\swagger;
+namespace m8rge\swagger;
 
 
 use IteratorAggregate;

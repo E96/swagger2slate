@@ -1,6 +1,6 @@
 <?php
 
-namespace e96\swagger;
+namespace m8rge\swagger;
 
 
 class Schema extends Object
@@ -9,22 +9,32 @@ class Schema extends Object
      * @var string
      */
     public $type = 'object';
+    
     /**
      * @var string
      */
     public $title;
+    
     /**
      * @var string
      */
     public $description;
+    
     /**
      * @var Schema
      */
     public $items;
+    
     /**
      * @var Schema[]
      */
     public $properties = [];
+    
+    /**
+     * @var string[]
+     */
+    public $enum = [];
+    
     /**
      * @var string[]
      */

@@ -1,22 +1,22 @@
 {
   "chmod": "0755",
   "directories" : [
-    "swagger"
+    "src"
   ],
   "files": [
-    "index.php",
-    "slate.twig",
-    "include.twig"
+    "index.php"
   ],
   "finder": [
     {
       "name": "*.php",
-      "notPath": "test",
+      "notPath": "/test/i",
       "in": "vendor"
     }
   ],
+  "git-version": "version",
   "main": "index.php",
   "output": "swagger2slate.phar",
+  "stub": true,
   "compression": "GZ",
-  "stub": true
+  "compactors": "Herrera\\Box\\Compactor\\Php"
 }
