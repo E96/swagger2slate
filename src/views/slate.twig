@@ -19,3 +19,19 @@ search: true
 {% endfor %}{# tag #}
 
 {{ func.renderModels(api) }}
+
+<style>
+    ul.enum {
+        margin: 0;
+        padding: 0 0 0 2px;
+        list-style-position: inside;
+    }
+    .required {
+        color: red;
+        font-weight: bold;
+    }
+    a.pseudo {
+        border-bottom:1px dashed; 
+        text-decoration: none;
+    }
+</style>

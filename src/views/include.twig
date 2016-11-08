@@ -52,7 +52,7 @@ Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Descriptio
 Name | Type | Description
 --- | --- | ---
 {% for name, schema in model.properties %}
-{{ name }}{% if name in model.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ schema }} | {{ schema.description|multilineInTable }}
+{{ name }}{% if name in model.required %}<span title="required" class="required">&nbsp;*&nbsp;</span>{% endif %} | {{ schema }} | {{ schema.description|multilineInTable }}{{ _self.enum(schema.enum) }}
 {% endfor %}
 {% endmacro %}
 
@@ -116,7 +116,7 @@ Content-Type: {{ api.produces[0]|default('application/json') }}
 Name | In | Type | Description
 --- | --- | --- | ---
 {% for parameter in parameters %}
-{{ parameter.name }}{% if parameter.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ parameter.in }} | {{ parameter }} | {% if not parameter.required %}Optional. {% endif %}{{ parameter.description|multilineInTable }}
+{{ parameter.name }}{% if parameter.required %}<span title="required" class="required">&nbsp;*&nbsp;</span>{% endif %} | {{ parameter.in }} | {{ parameter }} | {% if not parameter.required %}Optional. {% endif %}{{ parameter.description|multilineInTable }}
 {% endfor %}
 
 {% endif %}{#action.parameters#}
@@ -133,4 +133,28 @@ Http code | Type | Description
 {% endfor %}{#status, data  in action.responses#}
 
 {% endfor %}{# httpAction, action in actions #}
+{% endmacro %}
+
+{# #################################################################################### #}
+
+{% macro enum(list) %}
+{% spaceless %}
+{% if list %}
+    {% if list|length < 10 %}
+        <div>Acceptable values:</div>
+        <ul class="enum">
+            {% for value in list %}
+            <li>{{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div><a class="pseudo" href="javascript:void(0)" onclick="$(this).parent().next().slideToggle();">Acceptable values</a>:</div>
+        <ul class="enum" style="display: none">
+            {% for value in list %}
+                <li>{{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+{% endspaceless %}
 {% endmacro %}

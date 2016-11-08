@@ -31,7 +31,7 @@ class Schema extends Object
     public $properties = [];
 
     /**
-     * @var string[] todo:
+     * @var string[]
      */
     public $enum = [];
 
