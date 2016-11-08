@@ -23,6 +23,16 @@ class Swagger extends Object
     public $basePath;
 
     /**
+     * @var string
+     */
+    public $host;
+
+    /**
+     * @var string[]
+     */
+    public $schemes;
+
+    /**
      * @var string[]
      */
     public $consumes;

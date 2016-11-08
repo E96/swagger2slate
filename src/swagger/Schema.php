@@ -18,6 +18,11 @@ class Schema extends Object
     /**
      * @var string
      */
+    public $format;
+
+    /**
+     * @var string
+     */
     public $description;
 
     /**
