@@ -9,7 +9,7 @@
   "finder": [
     {
       "name": "*.php",
-      "notPath": "/test/",
+      "notPath": "%\/tests\/%i",
       "in": "vendor"
     }
   ],
