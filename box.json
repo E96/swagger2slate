@@ -16,7 +16,7 @@
   "git-version": "version",
   "main": "index.php",
   "output": "swagger2slate.phar",
-  "stub": true,
+  "stub": "stub.php",
   "compression": "GZ",
   "compactors": "Herrera\\Box\\Compactor\\Php"
 }
